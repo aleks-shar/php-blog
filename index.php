@@ -18,8 +18,17 @@ $app->get('/', function (Request $request, Response $response, $args) use ($view
     $response->getBody()->write($body);
     return $response;
 });
+
 $app->get('/about', function (Request $request, Response $response, $args) use($view){
     $body = $view->render('about.twig');
+    $response->getBody()->write($body);
+    return $response;
+});
+
+$app->get('/{url_key}', function (Request $request, Response $response, $args) use($view){
+    $body = $view->render('post.twig', [
+        'url_key' => $args['url_key'],
+    ]);
     $response->getBody()->write($body);
     return $response;
 });
