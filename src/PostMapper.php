@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Blog;
 
+use Exception;
 use PDO;
 
 class PostMapper
@@ -22,5 +23,18 @@ class PostMapper
         ]);
         $result = $statement->fetchAll();
         return array_shift($result);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getList(string $derection): ?array
+    {
+        if(!in_array($derection, ['DESC', 'ASC'])){
+            throw new Exception('The direction is not supported');
+        }
+        $statement = $this->connection->prepare('SELECT * FROM post ORDER BY published_date  ' .  $derection);
+        $statement->execute();
+        return $statement->fetchAll();
     }
 }
