@@ -1,0 +1,22 @@
+{
+    "name": "alex/php-blog",
+    "description": "Blog on PHP and MySQL",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Blogg\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "aleks-shar",
+            "email": "l-e-stat@yandex.ru"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.6"
+    }
+}
