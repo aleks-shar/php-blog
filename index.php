@@ -46,6 +46,21 @@ $app->get('/about', function (Request $request, Response $response, $args) use($
     return $response;
 });
 
+
+$app->get('/blog[/{page}]', function (Request $request, Response $response, $args) use ($view, $connection){
+    $latestPosts = new PostMapper($connection);
+
+    $page = isset($args['page']) ? (int) $args['page'] : 1;
+    $limit = 2;
+
+    $posts = $latestPosts->getList($page, $limit, 'DESC');
+    $body = $view->render('blog.twig', [
+        'posts' => $posts,
+    ]);
+    $response->getBody()->write($body);
+    return $response;
+});
+
 $app->get('/{url_key}', function (Request $request, Response $response, $args) use($view, $connection){
     $postMapper = new PostMapper($connection);
     $post = $postMapper->getByUrlKey((string) $args['url_key']);
