@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use Blog\LatestPosts;
 use Blog\Slim\TwigMiddleware;
+use DI\ContainerBuilder;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -12,12 +13,17 @@ use Blog\PostMapper;
 
 require __DIR__ . '/vendor/autoload.php';
 
+$builder = new ContainerBuilder();
+$builder->addDefinitions('config/di.php');
+$container = $builder->build();
+AppFactory::setContainer($container);
+/*
 $loader = new FilesystemLoader('templates');
 $view = new Environment($loader, [
     'debug' => true,
 ]);
 $view->addExtension(new \Twig\Extension\DebugExtension());
-
+*/
 $config = include 'config/database.php';
 $dsn = $config['dsn'];
 $username = $config['username'];
@@ -34,6 +40,7 @@ try {
 
 $app = AppFactory::create();
 
+$view = $container->get(Environment::class);
 $app->add(new TwigMiddleware($view));
 
 $app->get('/', function (Request $request, Response $response, $args) use ($view, $connection){
