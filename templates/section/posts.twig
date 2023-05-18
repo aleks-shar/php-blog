@@ -2,7 +2,7 @@
     <div class="row mb-2 bg-light" style="border: 1px solid #ddd;">
         <div class="p-3">
             {% if post.image_path is not null %}
-                <img src="/{{ post.image_path }}" class="img-fluid" alt="{{ post.title|escape }}">
+                <img src="{{ asset_url(post.image_path) }}" class="img-fluid" alt="{{ post.title|escape }}">
             {% else %}
                 <img src="https://dummyimage.com/300x200/5b76ba/ffffff" class="card-img-top" alt="...">
             {% endif %}
@@ -10,7 +10,7 @@
                 <h5 class="card-title">{{ post.title|escape }}</h5>
                 <span class="text-muted">Aleks Shar | {{ post.published_date|date("F d, Y") }}</span>
                 <p class="card-text">{{ post.description|escape }}</p>
-                <a href="/{{ post.url_key }}" class="btn btn-primary">Read more</a>
+                <a href="{{ url(post.url_key) }}" class="btn btn-primary">Read more</a>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
 
     <div class="container mt-5">
         {% if post.image_path is not null %}
-            <img src="/{{ post.image_path }}" class="img-fluid" alt="{{ post.title|escape }}">
+            <img src="{{ asset_url(post.image_path) }}" class="img-fluid" alt="{{ post.title|escape }}">
         {% else %}
         <img src="https://dummyimage.com/1200x400/5b76ba/ffffff" class="img-fluid" alt="{{ post.title|escape }}">
         {% endif %}
