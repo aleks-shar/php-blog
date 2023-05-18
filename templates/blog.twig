@@ -1,13 +1,14 @@
 {% extends 'base.twig' %}
 
 {% block body %}
+
     <h1 class="mb-3 mt-3">All Posts</h1>
     <div class="container">
         <div class="row">
             <div class="col-md-9">
                 {% include 'section/posts.twig' with posts %}
                 <div class="row">
-                    {% include 'section/pagination.twig'%}
+                    {% include 'section/pagination.twig' with pagination %}
                 </div>
             </div>
             <div class="col-md-3">

@@ -13,7 +13,10 @@ use Blog\PostMapper;
 require __DIR__ . '/vendor/autoload.php';
 
 $loader = new FilesystemLoader('templates');
-$view = new Environment($loader);
+$view = new Environment($loader, [
+    'debug' => true,
+]);
+$view->addExtension(new \Twig\Extension\DebugExtension());
 
 $config = include 'config/database.php';
 $dsn = $config['dsn'];
@@ -51,14 +54,20 @@ $app->get('/about', function (Request $request, Response $response, $args) use($
 
 
 $app->get('/blog[/{page}]', function (Request $request, Response $response, $args) use ($view, $connection){
-    $latestPosts = new PostMapper($connection);
+    $postMapper = new PostMapper($connection);
 
     $page = isset($args['page']) ? (int) $args['page'] : 1;
     $limit = 2;
 
-    $posts = $latestPosts->getList($page, $limit, 'DESC');
+    $posts = $postMapper->getList($page, $limit, 'DESC');
+
+    $totalCount = $postMapper->getTotalCount();
     $body = $view->render('blog.twig', [
         'posts' => $posts,
+        'pagination' => [
+            'current' => $page,
+            'paging' => ceil($totalCount / $limit),
+        ],
     ]);
     $response->getBody()->write($body);
     return $response;
