@@ -1,0 +1,13 @@
+#-------------------
+# My-Actions-Php-Blog
+#-------------------
+name: My-Actions-Php-Blog
+on: [push]
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Print Hello
+      run: echo "Hello World!"
+    
+
